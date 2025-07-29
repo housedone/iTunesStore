@@ -6,16 +6,44 @@
 //
 
 import UIKit
+import RxSwift
 
 class HomeViewController: UIViewController {
+    
+    let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
+        bind()
     }
 
     private func configureUI() {
         view.backgroundColor = .white
+    }
+    
+    private func bind() {
+        
+    }
+    
+    private func networkTest() {
+        NetworkService.shared
+            .fetchMedia(term: "봄", mediaType: "music")
+            .subscribe(
+                onNext: { (results: [Music]) in
+                    print("성공: \(results)")
+                },
+                onError: { error in
+                    print("에러 발생: \(error)")
+                },
+                onCompleted: {
+                    print("스트림 완료")
+                },
+                onDisposed: {
+                    print("스트림 Disposed")
+                }
+            )
+            .disposed(by: disposeBag)
     }
 }

@@ -7,13 +7,8 @@
 
 import Foundation
 
-struct SearchResult: Codable {
-    let resultCount: Int
-    let results: [MediaItem]
-}
-
-struct MediaItem: Codable {
-    let trackName: String?
-    let artistName: String?
-    let artworkUrl100: String?
+protocol MediaItem {
+    var title: String { get }
+    var subtitle: String { get }
+    var imageUrl: String? { get }
 }
