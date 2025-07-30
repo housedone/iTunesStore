@@ -10,5 +10,6 @@ import Foundation
 protocol MediaItem {
     var title: String { get }
     var subtitle: String { get }
+    var collectionTitle: String { get }
     var imageUrl: String? { get }
 }

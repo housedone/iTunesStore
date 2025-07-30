@@ -6,9 +6,13 @@
 //
 
 import UIKit
+import Then
+import SnapKit
 import RxSwift
 
 class HomeViewController: UIViewController {
+    
+    private let homeView = HomeView()
     
     let disposeBag = DisposeBag()
 
@@ -18,9 +22,14 @@ class HomeViewController: UIViewController {
         configureUI()
         bind()
     }
-
+    
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
+        view.addSubview(homeView)
+        
+        homeView.snp.makeConstraints {
+            $0.edges.equalTo(view.safeAreaLayoutGuide).inset(8)
+        }
     }
     
     private func bind() {
@@ -46,4 +55,8 @@ class HomeViewController: UIViewController {
             )
             .disposed(by: disposeBag)
     }
+}
+
+#Preview {
+    HomeViewController()
 }
