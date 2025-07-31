@@ -13,6 +13,7 @@
 		363AE8302E38958900CCEB67 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 363AE82F2E38958900CCEB67 /* RxCocoa */; };
 		363AE8322E38958900CCEB67 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 363AE8312E38958900CCEB67 /* RxRelay */; };
 		363AE8342E38958900CCEB67 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 363AE8332E38958900CCEB67 /* RxSwift */; };
+		36C3B9972E3B588000DB686E /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 36C3B9962E3B588000DB686E /* Kingfisher */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 			files = (
 				363AE8342E38958900CCEB67 /* RxSwift in Frameworks */,
 				363AE8322E38958900CCEB67 /* RxRelay in Frameworks */,
+				36C3B9972E3B588000DB686E /* Kingfisher in Frameworks */,
 				363AE82D2E38957200CCEB67 /* Alamofire in Frameworks */,
 				363AE8272E38952500CCEB67 /* SnapKit in Frameworks */,
 				363AE8302E38958900CCEB67 /* RxCocoa in Frameworks */,
@@ -99,6 +101,7 @@
 				363AE82F2E38958900CCEB67 /* RxCocoa */,
 				363AE8312E38958900CCEB67 /* RxRelay */,
 				363AE8332E38958900CCEB67 /* RxSwift */,
+				36C3B9962E3B588000DB686E /* Kingfisher */,
 			);
 			productName = iTunesStore;
 			productReference = 36F152CC2E379C61007D6E07 /* iTunesStore.app */;
@@ -133,6 +136,7 @@
 				363AE8282E38955D00CCEB67 /* XCRemoteSwiftPackageReference "Then" */,
 				363AE82B2E38957200CCEB67 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				363AE82E2E38958900CCEB67 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				36C3B9952E3B588000DB686E /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 36F152CD2E379C61007D6E07 /* Products */;
@@ -406,6 +410,14 @@
 				minimumVersion = 6.9.0;
 			};
 		};
+		36C3B9952E3B588000DB686E /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -438,6 +450,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 363AE82E2E38958900CCEB67 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		36C3B9962E3B588000DB686E /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36C3B9952E3B588000DB686E /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

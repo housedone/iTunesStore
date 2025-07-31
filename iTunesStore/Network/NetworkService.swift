@@ -7,8 +7,8 @@
 
 /// https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/iTuneSearchAPI/index.html
 
-import Foundation
 import Alamofire
+import Foundation
 import RxSwift
 
 final class NetworkService {
@@ -41,5 +41,4 @@ final class NetworkService {
             return Disposables.create()
         }
     }
-    
 }

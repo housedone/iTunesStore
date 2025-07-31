@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class BigCell: UICollectionViewCell {
     private let titleLabel = UILabel().then {
@@ -35,6 +36,7 @@ final class BigCell: UICollectionViewCell {
         configureUI()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -61,8 +63,8 @@ final class BigCell: UICollectionViewCell {
     }
     
     func configure(music: Music) {
-        titleLabel.text = music.albumName
+        titleLabel.text = music.collectionName
         subtitleLabel.text = music.artistName
-//        imageView.image = music.artworkUrl100
+        imageView.kf.setImage(with: URL(string: music.artworkUrl100?.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg") ?? "")) // 화질구지 링크를 600x600으로 치환
     }
 }

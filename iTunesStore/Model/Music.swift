@@ -8,12 +8,12 @@
 struct Music: Codable, MediaItem {
     let trackName: String?
     let artistName: String?
-    let albumName: String?
+    let collectionName: String?
     let artworkUrl100: String?
     
     var title: String { trackName ?? "제목 없음" }
     var subtitle: String { artistName ?? "아티스트 없음" }
-    var collectionTitle: String { albumName ?? "앨범 없음" }
+    var collectionTitle: String { collectionName ?? "앨범 없음" }
     var imageUrl: String? { artworkUrl100 }
 }
 

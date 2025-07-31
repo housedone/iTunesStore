@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 
 final class HomeViewModel {
     struct State {
@@ -20,6 +20,7 @@ final class HomeViewModel {
     enum Action {
         case fetchData
     }
+    let disposeBag = DisposeBag()
     
     let actionRelay = PublishRelay<Action>() // 얘가 뷰에서의 액션 신호를 받고, State에 보낸다?
     
@@ -38,11 +39,9 @@ final class HomeViewModel {
                         .map { spring, summer, autumn, winter in
                             State(springMusics: spring, summerMusics: summer, autumnMusics: autumn, winterMusics: winter)
                         }
-                    
                 }
             }
-        
             .bind(to: stateRelay)
-        
+            .disposed(by: disposeBag)
     }
 }
