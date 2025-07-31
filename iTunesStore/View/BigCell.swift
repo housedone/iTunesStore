@@ -9,24 +9,24 @@ import UIKit
 
 final class BigCell: UICollectionViewCell {
     private let titleLabel = UILabel().then {
-        $0.numberOfLines = 1
-        $0.font = .systemFont(ofSize: 20, weight: .regular)
-        $0.textColor = .label
         $0.text = "Album Name"
+        $0.textColor = .label
+        $0.font = .systemFont(ofSize: 20, weight: .regular)
+        $0.numberOfLines = 1
     }
     
     private let subtitleLabel = UILabel().then {
-        $0.numberOfLines = 1
-        $0.font = .systemFont(ofSize: 20, weight: .regular)
-        $0.textColor = .secondaryLabel
         $0.text = "Artist Name"
+        $0.textColor = .secondaryLabel
+        $0.font = .systemFont(ofSize: 20, weight: .regular)
+        $0.numberOfLines = 1
     }
     
     private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
-        $0.backgroundColor = .systemGray6
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
+        $0.backgroundColor = .systemGray6
     }
     
     override init(frame: CGRect) {
@@ -40,19 +40,23 @@ final class BigCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 4
-        
-        contentView.addSubview(stackView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(subtitleLabel)
         contentView.addSubview(imageView)
         
-        stackView.snp.makeConstraints {
+        titleLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
+        
+        subtitleLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
+            $0.leading.trailing.equalToSuperview()
+        }
+        
         imageView.snp.makeConstraints {
-            $0.top.equalTo(stackView.snp.bottom).offset(8)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(subtitleLabel.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(imageView.snp.width).multipliedBy(0.6)
         }
     }
     
