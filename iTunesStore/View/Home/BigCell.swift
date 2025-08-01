@@ -5,8 +5,8 @@
 //  Created by 김우성 on 7/30/25.
 //
 
-import UIKit
 import Kingfisher
+import UIKit
 
 final class BigCell: UICollectionViewCell {
     private let titleLabel = UILabel().then {
@@ -15,56 +15,63 @@ final class BigCell: UICollectionViewCell {
         $0.font = .systemFont(ofSize: 20, weight: .regular)
         $0.numberOfLines = 1
     }
-    
+
     private let subtitleLabel = UILabel().then {
         $0.text = "Artist Name"
         $0.textColor = .secondaryLabel
         $0.font = .systemFont(ofSize: 20, weight: .regular)
         $0.numberOfLines = 1
     }
-    
+
     private let imageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
         $0.layer.cornerRadius = 12
         $0.layer.masksToBounds = true
         $0.backgroundColor = .systemGray6
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         configureUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+
     private func configureUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(imageView)
-        
+
         titleLabel.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
         }
-        
+
         subtitleLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(4)
             $0.leading.trailing.equalToSuperview()
         }
-        
+
         imageView.snp.makeConstraints {
             $0.top.equalTo(subtitleLabel.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(imageView.snp.width).multipliedBy(0.6)
+            $0.bottom.equalToSuperview() // 핵심: 셀 높이 확정 가능하게!
         }
     }
-    
+
     func configure(music: Music) {
         titleLabel.text = music.collectionName
         subtitleLabel.text = music.artistName
-        imageView.kf.setImage(with: URL(string: music.artworkUrl100?.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg") ?? "")) // 화질구지 링크를 600x600으로 치환
+        imageView.kf.setImage(
+            with: URL(string: music.artworkUrl100?.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg") ?? "")
+        )
     }
 }
