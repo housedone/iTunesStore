@@ -17,6 +17,8 @@ class HomeViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Music>!
     private let disposeBag = DisposeBag()
     
+    private let searchController = UISearchController(searchResultsController: nil)
+    
     enum Section: Int, CaseIterable { // CaseIterable: 열거형에 allCases 프로퍼티 만들어 줌
         case spring, summer, autumn, winter
         var title: String {
@@ -32,6 +34,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupSearchController()
         makeDataSource()
         bind()
     }
@@ -48,6 +51,21 @@ class HomeViewController: UIViewController {
         homeView.collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
         
         homeView.collectionView.collectionViewLayout = homeView.createCompositionalLayoutWithHeaders()
+    }
+    
+    private func setupSearchController() {
+        navigationItem.title = "음악"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.hidesSearchBarWhenScrolling = false
+        
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.placeholder = "영화, 팟캐스트 검색"
+        
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     private func makeDataSource() {
@@ -98,6 +116,13 @@ class HomeViewController: UIViewController {
         snapshot.appendItems(state.autumnMusics, toSection: .autumn)
         snapshot.appendItems(state.winterMusics, toSection: .winter)
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension HomeViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        let query = searchController.searchBar.text ?? ""
+        print("검색어: \(query)") // 이 부분에 필터링 + snapshot 적용 추가
     }
 }
 
