@@ -36,10 +36,10 @@ final class HomeViewModel {
             .flatMap { action in // 들어온 action 값을 바탕으로 새로운 Observable을 생성하고 다음 스트림에게 전달한다.
                 switch action {
                 case .fetchData:
-                    let fetchSpring = NetworkService.shared.fetchMedia(term: "봄", mediaType: "music", limit: 5, to: Music.self)
-                    let fetchSummer = NetworkService.shared.fetchMedia(term: "여름", mediaType: "music", limit: 50, to: Music.self)
-                    let fetchAutumn = NetworkService.shared.fetchMedia(term: "가을", mediaType: "music", limit: 50, to: Music.self)
-                    let fetchWinter = NetworkService.shared.fetchMedia(term: "겨울", mediaType: "music", limit: 50, to: Music.self)
+                    let fetchSpring = NetworkService.shared.fetchMedia(term: "봄", mediaType: "music", limit: 5 - 1, to: Music.self)
+                    let fetchSummer = NetworkService.shared.fetchMedia(term: "여름", mediaType: "music", limit: 50 - 1, to: Music.self)
+                    let fetchAutumn = NetworkService.shared.fetchMedia(term: "가을", mediaType: "music", limit: 50 - 1, to: Music.self)
+                    let fetchWinter = NetworkService.shared.fetchMedia(term: "겨울", mediaType: "music", limit: 50 - 1, to: Music.self)
                     return Observable.zip(fetchSpring, fetchSummer, fetchAutumn, fetchWinter) // 생성하는 옵저버블들을 모두 완료될 때까지 기다려서 결과를 하나의 튜플로 묶고,
                         .map { spring, summer, autumn, winter in
                             State(springMusics: spring, summerMusics: summer, autumnMusics: autumn, winterMusics: winter)

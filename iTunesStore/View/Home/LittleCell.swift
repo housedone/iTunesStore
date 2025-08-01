@@ -70,3 +70,16 @@ final class LittleCell: UICollectionViewCell {
         }
     }
 }
+
+extension LittleCell {
+    func configure(mediaItem: MediaItem, showMediaType: Bool = false) {
+        titleLabel.text = mediaItem.title
+        artistLabel.text = showMediaType ? "[\(mediaItem is Movie ? "영화" : "팟캐스트")] \(mediaItem.subtitle)" : mediaItem.subtitle
+
+        if let urlString = mediaItem.imageUrl, let url = URL(string: urlString) {
+            thumbnailImageView.kf.setImage(with: url)
+        } else {
+            thumbnailImageView.image = UIImage(systemName: "photo")
+        }
+    }
+}

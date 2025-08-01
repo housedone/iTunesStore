@@ -15,6 +15,7 @@ struct Music: Codable, MediaItem, Hashable {
     var subtitle: String { artistName ?? "아티스트 없음" }
     var collectionTitle: String { collectionName ?? "앨범 없음" }
     var imageUrl: String? { artworkUrl100 }
+    var description: String? { nil }
 }
 
 /* 예시

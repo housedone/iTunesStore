@@ -10,21 +10,6 @@ import Then
 import UIKit
 
 final class HomeView: UIView {
-//    private let titleLabel = UILabel().then {
-//        $0.text = "음악"
-//        $0.font = .systemFont(ofSize: 30, weight: .bold)
-//        $0.textColor = .label
-//        $0.textAlignment = .left
-//    }
-//
-//    private let searchBar = UISearchBar().then {
-//        $0.searchBarStyle = .minimal
-//        $0.showsCancelButton = false
-//        $0.returnKeyType = .search
-//        $0.searchTextField.clearButtonMode = .whileEditing
-//        $0.placeholder = "영화, 팟캐스트 검색"
-//    }
-
     lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: createCompositionalLayoutWithHeaders()
@@ -49,22 +34,8 @@ final class HomeView: UIView {
     }
 
     private func configureUI() {
-//        addSubview(titleLabel)
-//        addSubview(searchBar)
         addSubview(collectionView)
-
-//        titleLabel.snp.makeConstraints {
-//            $0.top.equalToSuperview()
-//            $0.leading.trailing.equalToSuperview().inset(20)
-//        }
-//
-//        searchBar.snp.makeConstraints {
-//            $0.top.equalTo(titleLabel.snp.bottom)
-//            $0.leading.trailing.equalToSuperview().inset(10)
-//        }
-
         collectionView.snp.makeConstraints {
-//            $0.top.equalTo(searchBar.snp.bottom).offset(8)
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
     }

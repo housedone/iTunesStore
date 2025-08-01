@@ -12,4 +12,5 @@ protocol MediaItem {
     var subtitle: String { get }
     var collectionTitle: String { get }
     var imageUrl: String? { get }
+    var description: String? { get }
 }

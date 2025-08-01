@@ -16,21 +16,22 @@ class HomeViewController: UIViewController {
     private let homeViewModel = HomeViewModel()
     private var dataSource: UICollectionViewDiffableDataSource<Section, Music>!
     private let disposeBag = DisposeBag()
-    
-    private let searchController = UISearchController(searchResultsController: nil)
-    
-    enum Section: Int, CaseIterable { // CaseIterable: 열거형에 allCases 프로퍼티 만들어 줌
+
+    private let searchResultVC = SearchResultViewController()
+    private lazy var searchController = UISearchController(searchResultsController: searchResultVC)
+
+    enum Section: Int, CaseIterable {
         case spring, summer, autumn, winter
         var title: String {
             switch self {
-            case .spring: return "#봄"
+            case .spring: return "#봄 #Top5"
             case .summer: return "#여름"
             case .autumn: return "#가을"
             case .winter: return "#겨울"
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -38,36 +39,44 @@ class HomeViewController: UIViewController {
         makeDataSource()
         bind()
     }
-    
+
     private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(homeView)
-        
+
         homeView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         homeView.collectionView.register(LittleCell.self, forCellWithReuseIdentifier: "LittleCell")
         homeView.collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
-        
+
         homeView.collectionView.collectionViewLayout = homeView.createCompositionalLayoutWithHeaders()
     }
-    
+
     private func setupSearchController() {
         navigationItem.title = "음악"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.hidesSearchBarWhenScrolling = false
-        
+
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "영화, 팟캐스트 검색"
-        
+
         navigationItem.searchController = searchController
         definesPresentationContext = true
+
+        // 검색바 탭 시 SearchResultViewController 전환
+        searchController.searchBar.rx.textDidBeginEditing
+            .bind(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.present(self.searchController, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
-    
+
     private func makeDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Music>(
             collectionView: homeView.collectionView
@@ -88,26 +97,30 @@ class HomeViewController: UIViewController {
                 return cell
             }
         }
-        
+
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard kind == UICollectionView.elementKindSectionHeader else { return nil }
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HeaderView.reuseIdentifier, for: indexPath) as! HeaderView
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HeaderView.reuseIdentifier,
+                for: indexPath
+            ) as! HeaderView
             let section = Section(rawValue: indexPath.section)!
             header.setTitle(section.title)
             return header
         }
     }
-    
+
     private func bind() {
         homeViewModel.actionRelay.accept(.fetchData)
-        
+
         homeViewModel.stateDriver
             .drive(onNext: { [weak self] state in
                 self?.applySnapshot(state)
             })
             .disposed(by: disposeBag)
     }
-    
+
     private func applySnapshot(_ state: HomeViewModel.State) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Music>()
         snapshot.appendSections(Section.allCases)
@@ -122,9 +135,10 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         let query = searchController.searchBar.text ?? ""
-        print("검색어: \(query)") // 이 부분에 필터링 + snapshot 적용 추가
+        searchResultVC.performSearch(query: query)
     }
 }
+
 
 #Preview {
     HomeViewController()
