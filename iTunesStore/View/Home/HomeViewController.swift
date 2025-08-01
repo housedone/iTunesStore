@@ -36,32 +36,15 @@ class HomeViewController: UIViewController {
         homeViewModel.actionRelay
             .accept(.fetchData)
         
-        homeViewModel.stateRelay
+        homeViewModel.musicsDriver
             .map { $0.springMusics }
-            .bind(to: homeView.collectionView.rx.items(
+            .drive(homeView.collectionView.rx.items(
                 cellIdentifier: "BigCell",
                 cellType: BigCell.self
             )) { row, music, cell in
                 cell.configure(music: music)
             }
-        //            .subscribe(onNext: { state in print(state) })
             .disposed(by: disposeBag)
-        
-        //        // 더미
-        //        let dummy = [
-        //            Music(trackName: "What Did I Miss?", artistName: "Drake", albumName: "What Did I Miss? - Single", artworkUrl100: nil),
-        //            Music(trackName: "로보트", artistName: "서태지", albumName: "7th Issue", artworkUrl100: nil),
-        //            Music(trackName: "MUD", artistName: "GIVĒON", albumName: "BELOVED", artworkUrl100: nil)
-        //        ]
-        //
-        //        Observable.just(dummy)
-        //            .bind(to: homeView.collectionView.rx.items(
-        //                cellIdentifier: "BigCell",
-        //                cellType: BigCell.self
-        //            )) { row, music, cell in
-        //                cell.configure(music: music)
-        //            }
-        //            .disposed(by: disposeBag)
     }
 }
 

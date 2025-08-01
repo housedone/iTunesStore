@@ -16,12 +16,12 @@ final class NetworkService {
     
     private init() {}
     
-    func fetchMedia<T: Decodable>(term: String, mediaType: String, to: T.Type) -> Observable<[T]> {
+    func fetchMedia<T: Decodable>(term: String, mediaType: String, limit: Int, to: T.Type) -> Observable<[T]> {
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             return Observable.just([])
         }
         
-        let url = "https://itunes.apple.com/search?term=\(encodedTerm)&media=\(mediaType)&country=KR&limit=50"
+        let url = "https://itunes.apple.com/search?term=\(encodedTerm)&media=\(mediaType)&country=KR&limit=\(limit)"
         
         return Observable.create { observer in
             AF.request(url)

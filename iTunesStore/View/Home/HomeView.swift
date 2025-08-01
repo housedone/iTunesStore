@@ -64,10 +64,11 @@ final class HomeView: UIView {
         }
     }
     
-    private func createLayout() -> UICollectionViewLayout {
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        
         let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1),
-            heightDimension: .fractionalHeight(1)
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
@@ -75,7 +76,10 @@ final class HomeView: UIView {
             widthDimension: .absolute(300),
             heightDimension: .absolute(180)
         )
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitems: [item]
+        )
         
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary

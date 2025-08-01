@@ -26,15 +26,19 @@ final class HomeViewModel {
     
     let stateRelay = BehaviorRelay<State>(value: State())
     
+    var musicsDriver: Driver<State> {
+        stateRelay.asDriver()
+    }
+    
     init() {
         actionRelay
             .flatMap { action in
                 switch action {
                 case .fetchData:
-                    let fetchSpring = NetworkService.shared.fetchMedia(term: "봄", mediaType: "music", to: Music.self)
-                    let fetchSummer = NetworkService.shared.fetchMedia(term: "여름", mediaType: "music", to: Music.self)
-                    let fetchAutumn = NetworkService.shared.fetchMedia(term: "가을", mediaType: "music", to: Music.self)
-                    let fetchWinter = NetworkService.shared.fetchMedia(term: "겨울", mediaType: "music", to: Music.self)
+                    let fetchSpring = NetworkService.shared.fetchMedia(term: "봄", mediaType: "music", limit: 5, to: Music.self)
+                    let fetchSummer = NetworkService.shared.fetchMedia(term: "여름", mediaType: "music", limit: 50, to: Music.self)
+                    let fetchAutumn = NetworkService.shared.fetchMedia(term: "가을", mediaType: "music", limit: 50, to: Music.self)
+                    let fetchWinter = NetworkService.shared.fetchMedia(term: "겨울", mediaType: "music", limit: 50, to: Music.self)
                     return Observable.zip(fetchSpring, fetchSummer, fetchAutumn, fetchWinter)
                         .map { spring, summer, autumn, winter in
                             State(springMusics: spring, summerMusics: summer, autumnMusics: autumn, winterMusics: winter)
