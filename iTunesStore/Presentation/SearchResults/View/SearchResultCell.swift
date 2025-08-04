@@ -92,7 +92,7 @@ final class SearchResultCell: UICollectionViewCell {
     }
 
     func configure(with model: MediaInfo, showMediaType: Bool) {
-        subtitleLabel.text = showMediaType ? "[\(model.mediaType)] \(model.subtitle)" : model.subtitle
+        subtitleLabel.text = model.subtitle
         titleLabel.text = model.title
         
         if let urlString = model.imageUrl, let url = URL(string: urlString) {
