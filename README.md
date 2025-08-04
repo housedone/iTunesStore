@@ -77,6 +77,8 @@
 - ✅ **RxSwift의 DisposeBag**을 모든 ViewModel과 ViewController에서 적절히 사용하여 메모리 누수 방지.
 - ✅ **SearchResultHeaderView** 내부에서 disposeBag을 반복적으로 생성하지 않도록 주의하여 Rx 바인딩 시점과 메모리 주기 관리.
 - 🔍 **Xcode Instruments** 분석 결과, Retain Cycle 및 메모리 누수 없음 확인.
+- <img width="1317" height="957" alt="스크린샷 2025-08-04 17 00 36" src="https://github.com/user-attachments/assets/d5765082-07a4-4b34-9c83-46d39ae91e6b" />
+
 
 ---
 
