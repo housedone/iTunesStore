@@ -14,7 +14,7 @@ import UIKit
 class HomeViewController: UIViewController {
     private let homeView = HomeView()
     private let homeViewModel = HomeViewModel()
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Music>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, MediaInfo>!
     private let disposeBag = DisposeBag()
 
     private let searchResultVC = SearchResultViewController()
@@ -49,6 +49,7 @@ class HomeViewController: UIViewController {
         }
 
         homeView.collectionView.register(LittleCell.self, forCellWithReuseIdentifier: "LittleCell")
+        homeView.collectionView.register(BigCell.self, forCellWithReuseIdentifier: "BigCell")
         homeView.collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.reuseIdentifier)
 
         homeView.collectionView.collectionViewLayout = homeView.createCompositionalLayoutWithHeaders()
@@ -67,33 +68,25 @@ class HomeViewController: UIViewController {
 
         navigationItem.searchController = searchController
         definesPresentationContext = true
-
-        // 검색바 탭 시 SearchResultViewController 전환
-        searchController.searchBar.rx.textDidBeginEditing
-            .bind(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.present(self.searchController, animated: true)
-            })
-            .disposed(by: disposeBag)
     }
 
     private func makeDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, Music>(
+        dataSource = UICollectionViewDiffableDataSource<Section, MediaInfo>(
             collectionView: homeView.collectionView
-        ) { collectionView, indexPath, music in
+        ) { collectionView, indexPath, info in
             let section = Section(rawValue: indexPath.section)!
             switch section {
             case .spring:
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: "BigCell", for: indexPath
                 ) as! BigCell
-                cell.configure(music: music)
+                cell.configure(info: info)
                 return cell
             default:
                 let cell = collectionView.dequeueReusableCell(
                     withReuseIdentifier: "LittleCell", for: indexPath
                 ) as! LittleCell
-                cell.configure(music: music)
+                cell.configure(info: info)
                 return cell
             }
         }
@@ -122,12 +115,12 @@ class HomeViewController: UIViewController {
     }
 
     private func applySnapshot(_ state: HomeViewModel.State) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Music>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, MediaInfo>()
         snapshot.appendSections(Section.allCases)
-        snapshot.appendItems(state.springMusics, toSection: .spring)
-        snapshot.appendItems(state.summerMusics, toSection: .summer)
-        snapshot.appendItems(state.autumnMusics, toSection: .autumn)
-        snapshot.appendItems(state.winterMusics, toSection: .winter)
+        snapshot.appendItems(state.springInfos, toSection: .spring)
+        snapshot.appendItems(state.summerInfos, toSection: .summer)
+        snapshot.appendItems(state.autumnInfos, toSection: .autumn)
+        snapshot.appendItems(state.winterInfos, toSection: .winter)
         dataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -138,7 +131,6 @@ extension HomeViewController: UISearchResultsUpdating {
         searchResultVC.performSearch(query: query)
     }
 }
-
 
 #Preview {
     HomeViewController()

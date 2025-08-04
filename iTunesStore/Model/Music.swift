@@ -5,17 +5,11 @@
 //  Created by 김우성 on 7/29/25.
 //
 
-struct Music: Codable, MediaItem, Hashable {
+struct Music: Codable, Hashable {
     let trackName: String?
     let artistName: String?
     let collectionName: String?
     let artworkUrl100: String?
-
-    var title: String { trackName ?? "제목 없음" }
-    var subtitle: String { artistName ?? "아티스트 없음" }
-    var collectionTitle: String { collectionName ?? "앨범 없음" }
-    var imageUrl: String? { artworkUrl100 }
-    var description: String? { nil }
 }
 
 /* 예시

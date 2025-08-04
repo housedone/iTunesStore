@@ -91,23 +91,18 @@ final class SearchResultCell: UICollectionViewCell {
         contentView.backgroundColor = generateRandomPastelColor()
     }
 
-    func configure(with item: MediaItem, mediaType: String?, showMediaType: Bool) {
-        subtitleLabel.text = item.subtitle.uppercased()
-        titleLabel.text = item.title
-
-        if let urlString = item.imageUrl?.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg"),
-           let url = URL(string: urlString) {
+    func configure(with model: MediaInfo, showMediaType: Bool) {
+        subtitleLabel.text = showMediaType ? "[\(model.mediaType)] \(model.subtitle)" : model.subtitle
+        titleLabel.text = model.title
+        
+        if let urlString = model.imageUrl, let url = URL(string: urlString) {
             artworkImageView.kf.setImage(with: url)
         } else {
             artworkImageView.image = UIImage(systemName: "photo")
         }
-
-        if showMediaType, let mediaType = mediaType {
-            mediaTypeLabel.text = mediaType
-            mediaTypeLabel.isHidden = false
-        } else {
-            mediaTypeLabel.isHidden = true
-        }
+        
+        mediaTypeLabel.isHidden = !showMediaType
+        mediaTypeLabel.text = model.mediaType
     }
 
     private func generateRandomPastelColor() -> UIColor {

@@ -18,7 +18,7 @@ final class SearchResultViewController: UIViewController {
     private let viewModel = SearchResultViewModel()
     private let disposeBag = DisposeBag()
 
-    private var dataSource: UICollectionViewDiffableDataSource<Section, MediaItemWrapper>!
+    private var dataSource: UICollectionViewDiffableDataSource<Section, MediaInfo>!
     private var latestQuery: String = ""
 
     private lazy var segmentedControl: UISegmentedControl = {
@@ -64,15 +64,16 @@ final class SearchResultViewController: UIViewController {
     }
 
     private func makeDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, MediaItemWrapper>(
+        dataSource = UICollectionViewDiffableDataSource<Section, MediaInfo>(
             collectionView: collectionView
-        ) { [weak self] collectionView, indexPath, wrapper in
+        ) { [weak self] collectionView, indexPath, model in
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "SearchResultCell",
                 for: indexPath
             ) as! SearchResultCell
+            
             let showType = self?.segmentedControl.selectedSegmentIndex == 0
-            cell.configure(with: wrapper.item, mediaType: wrapper.mediaType, showMediaType: showType)
+            cell.configure(with: model, showMediaType: showType)
             return cell
         }
 
@@ -91,7 +92,8 @@ final class SearchResultViewController: UIViewController {
 
             header.titleButton.rx.tap
                 .bind { [weak self] in
-                    self?.dismiss(animated: true)
+                    guard let self = self else { return }
+                    self.dismiss(animated: true)
                 }
                 .disposed(by: self!.disposeBag)
 
@@ -118,13 +120,12 @@ final class SearchResultViewController: UIViewController {
         viewModel.stateDriver
             .drive(onNext: { [weak self] state in
                 self?.latestQuery = state.queryText
-
-                var snapshot = NSDiffableDataSourceSnapshot<Section, MediaItemWrapper>()
+                var snapshot = NSDiffableDataSourceSnapshot<Section, MediaInfo>()
                 snapshot.appendSections([.main])
                 snapshot.appendItems(state.mediaItems)
+                snapshot.reloadSections([.main]) // 기존 apply 전에 헤더 포함 섹션 강제 reload (서치바에 입력하는 내용 바로 반영용)
+                
                 self?.dataSource.apply(snapshot, animatingDifferences: false)
-
-                self?.collectionView.reloadData()
             })
             .disposed(by: disposeBag)
     }

@@ -5,18 +5,12 @@
 //  Created by 김우성 on 8/1/25.
 //
 
-struct Movie: Codable, MediaItem, Hashable {
+struct Movie: Codable, Hashable {
     let trackName: String?
     let artistName: String?
     let collectionName: String?
     let artworkUrl100: String?
     let longDescription: String?
-
-    var title: String { trackName ?? "제목 없음" }
-    var subtitle: String { artistName ?? "아티스트 없음" }
-    var collectionTitle: String { collectionName ?? "앨범 없음" }
-    var imageUrl: String? { artworkUrl100 }
-    var description: String? { longDescription }
 }
 
 // 건질것 : artistName, collectionName, trackName, artworkUrl100, longDescription

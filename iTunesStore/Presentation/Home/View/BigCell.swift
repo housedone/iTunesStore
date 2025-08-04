@@ -67,11 +67,11 @@ final class BigCell: UICollectionViewCell {
         }
     }
 
-    func configure(music: Music) {
-        titleLabel.text = music.collectionName
-        subtitleLabel.text = music.artistName
+    func configure(info: MediaInfo) {
+        titleLabel.text = info.title
+        subtitleLabel.text = info.subtitle
         imageView.kf.setImage(
-            with: URL(string: music.artworkUrl100?.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg") ?? "")
+            with: URL(string: info.imageUrl?.replacingOccurrences(of: "100x100bb.jpg", with: "600x600bb.jpg") ?? "")
         )
     }
 }
