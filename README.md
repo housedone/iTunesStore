@@ -4,7 +4,7 @@
 
 | iPhone Recording | iPad Screenshot |
 |------------------|-----------------|
-| <img src="https://github.com/user-attachments/assets/f6064400-7b1d-4b3e-9113-1d0215587afb"/> | <img src="https://github.com/user-attachments/assets/96a882cb-3800-453d-8761-6e1d94d8325d" height="400px" /> |
+| <img src="https://github.com/user-attachments/assets/7f2d1950-9882-4434-bcd8-4934b78477f7"/> | <img src="https://github.com/user-attachments/assets/96a882cb-3800-453d-8761-6e1d94d8325d" height="400px" /> |
 
 
 ---
